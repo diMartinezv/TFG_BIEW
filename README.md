@@ -7,6 +7,6 @@ OpenSees code in Tcl for:
     * Cyclic
 * Multi Story buildings with Frames with Intenrional Eccentric Braces (FIEB)
     * Direct Displacement Based Design
-    * Non linear Response Historic Analysis
+    * Non linear Response History Analysis
 
  Check the READMEs in each folder for specific details of each analysis.
