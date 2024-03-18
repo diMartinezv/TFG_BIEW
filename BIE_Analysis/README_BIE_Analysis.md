@@ -17,7 +17,7 @@ For monotonic analysis
 For cyclyc analysis
 
 * Second: edit "WSections_BIE_Cyclic_Displacements.tcl" to change the default target displacement cycles
-* Third: edit "Chain_BIE_Cyclic_Analysis.tcl" for a specific set of target displacements
+* Third: edit "Chain_BIE_Cyclic_Analysis.tcl" for a specific set of sections to test
 * Fourth: open a OpenSees window and type this:
 
   * For specific sections (not using the for loop) use "m" (section) and "n" (eccentricity)
