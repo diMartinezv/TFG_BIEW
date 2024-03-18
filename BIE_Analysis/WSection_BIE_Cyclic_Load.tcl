@@ -13,7 +13,7 @@
 # -------------------------
 # Global Response Recorder
 if {$n == 0} {
-	recorder Node -file [format "$directory/$nameT-disp.dat"] -node 1 -dof 1 disp
+	recorder Node -file [format "$directory/$nameT-disp.dat"] -node 1 -dof 1 disp; # Since the displacement is the same for all eccentricities in a single section, records it only once
 }
 recorder Node -file [format "$directory/$nameT-force.dat"] -node [expr $elg+$elp+$elb+$elp+$elg+3] -dof 1 reaction 
 system UmfPack

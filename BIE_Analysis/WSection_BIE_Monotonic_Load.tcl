@@ -24,7 +24,7 @@ analysis Static
 # -------------------------
 # Loading Protocol - monotonic -
 # -------------------------
-set peaks [ list 0.0 -$disp*$direction]; #negative produces tension
+set peaks [ list 0.0 -$disp*$direction]; # negative produces tension
 for {set i 1 } { $i <= 1 } {incr i } {
 set dU [expr ([lindex $peaks $i ]-[lindex $peaks [expr $i-1]])/$disp ]
 integrator DisplacementControl 1 1 $dU 1 $dU $dU
