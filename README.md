@@ -5,7 +5,7 @@ OpenSees code in Tcl for:
 * Individual test of Braces with Intentional Eccentricity (BIE)
     * Monotonic
     * Cyclic
-* Multi Story buildings with Frames with Intenrional Eccentric Braces (FIEB)
+* Multi Story buildings with Frames with Intentional Eccentric Braces (FIEB)
     * Direct Displacement Based Design
     * Non linear Response History Analysis
 
