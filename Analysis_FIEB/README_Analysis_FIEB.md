@@ -1,9 +1,15 @@
 ----------------------------------------------------------------------------------------------------
 To execute the Non Linear Response History Analysis of Multi Story Models:
 
-* First: edit files "#Story_WSection_ModelArguments.tcl" (inside "#-Stories" folder) and "ChainAnalysis_FIEB_Analysis.tcl"
-* Second: copy aceleration records in "Records" folder (check the example left) 
-* Third: open a OpenSees window and type this:
+* First: edit "#Story_WSection_ModelArguments.tcl" (inside "#-Stories" folder)
+  * W-Section dimensions (or HSS)
+  * Material properties
+  * Masses and loads
+* Second: edit "ChainAnalysis_FIEB_Analysis.tcl"
+  * Records selection
+  * Other options
+* Third: copy acceleration records in "Records" folder (check the example left) 
+* Fourth: open a OpenSees window and type this:
 
   *     set type (type); set m (m); set n (n); source ChainAnalysis_FIEB_Analysis.tcl
   * If no "type" is set, both will be run
