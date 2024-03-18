@@ -17,9 +17,8 @@
 ####################################################################################################
 
 # -------------------------
-# Analysis 
+# Analysis parameters
 # -------------------------
-# ------- Analysis parameters -------
 puts "\n---------- ----------\n"
 test EnergyIncr 1.0e-8 30
 algorithm Newton
@@ -27,6 +26,10 @@ integrator LoadControl 0.01
 analysis Static
 analyze 100
 loadConst -time 0.0
+
+# -------------------------
+# Recorders
+# -------------------------
 if {![info exists safe_Results] || $safe_Results} {
 	file mkdir $dirResults; # creates a folder where the results will be placed
 	# ------- Base Reaction Recorders -------
@@ -99,7 +102,10 @@ if {![info exists safe_Results] || $safe_Results} {
 		eval recorder Element -file [format ${dirResults}/[expr $i+1]-story-rightcolumn-local.dat] -time -ele $forceRecorderColRight localForce;
 	}
 }
-# ----- Time series parameters -----
+
+# -------------------------
+# Time series parameters
+# -------------------------
 puts ""
 set timeSeriesTag 1
 timeSeries Path $timeSeriesTag -dt $timeStep -filePath "${dirRecord}${record}${extAccelerograms}" -factor [expr $Gravity*1.2*$scale]; # 1.2 factor to account for accidental eccentricity 
@@ -113,7 +119,10 @@ test EnergyIncr $tol $maxNumIter
 algorithm NewtonLineSearch 0.8
 integrator Newmark 0.5 0.25
 analysis Transient
-# ----- Analysis execution -----
+
+# -------------------------
+# NLRHA excecution
+# -------------------------
 set dt0 [expr $timeStep/ 2.0]
 set analysisStep 50.0; # Number of steps to divide $NTINCR
 set starting_time [clock clicks -milliseconds]; # Start timer to check progress

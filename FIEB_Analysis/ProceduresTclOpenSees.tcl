@@ -1,6 +1,6 @@
 ####################################################################################################
 ##
-##      ProceduresTclOpenSees.tcl -- misc procedures for Tcl OpenSees
+##      ProceduresTclOpenSees.tcl -- miscellaneous procedures for Tcl OpenSees
 ##
 ##      Length: [mm] milimeter
 ##      Time: [s] second
@@ -13,6 +13,9 @@
 # calculateModeFrequencies		returns frequencies from vibration modes
 # displayModePeriods			prints periods of vibration modes
 # checkListsLengths				checks lists lenghts and negative values
+# appendListValues              appends two lists into a single list (ex: [lis1 1 2 3] * [list2 a b] = [list3 1a 2a 3a 1b 2b 3b])
+# repeatListValues              repeats the first list by the amount of elements in the second list
+# displayAnalysisProgress       
 
 proc accumulateList {valueList {zeroStart false}} {
     set List [list]

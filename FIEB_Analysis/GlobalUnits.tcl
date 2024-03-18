@@ -1,6 +1,6 @@
 ####################################################################################################
 ##
-##      GlobalUnits.tcl -- misc procedures for Tcl OpenSees
+##      GlobalUnits.tcl -- shared units in the metric system
 ##
 ##      Length: [mm] milimeter
 ##      Time: [s] second
