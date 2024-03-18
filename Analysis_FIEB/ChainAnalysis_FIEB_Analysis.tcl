@@ -9,14 +9,14 @@
 ##      Story configuration
 ##          ...|/|\|...
 ##
-##      Example left for "cor" cortical and "sub" subduction type records
+##      Example left for "cor" cortical and "sub" subduction type records and for 12-Story model
 ##
 ####################################################################################################
 
 # -------------------------
 # Source Common Files (NEEDS TO BE SET BEFORE EXECUTING)
-# Since the model arguments are the only change between different models, its recommended to keep them in their own folder to also differentiate between results, the rest of the files can be kept in a shared folder (use "C:/Users/..." to specify a complete different directory)
 # -------------------------
+# Since the model arguments are the only change between different models, its recommended to keep them in their own folder to also differentiate between results, the rest of the files can be kept in a shared folder (use "C:/Users/..." to specify a complete different directory)
 set modelStoryNumber 12;
 set multiStoryModel "${modelStoryNumber}Story_WSection_ModelArguments.tcl"; # Name to change for different models
 set dirMultiStoryModel "${modelStoryNumber}-Stories/"; # Directory path of model to run analysis
@@ -89,7 +89,7 @@ if {[info exists type] && ($type != "cor" && $type != "sub")} {
 puts $recordList
 
 # -------------------------
-# Source Analysis (DONT EDIT)
+# Source Analysis (DONT EDIT EXCEPT THE FOLDER NAME IF YOU WANT)
 # -------------------------
 # Manualy set 'm' and 'n' for specific records otherwise run all
 if {![info exist m]} {
@@ -116,7 +116,7 @@ for {set l $m} {$l<=$n} {incr l} {
     set timeStep [lindex $timeStepList $l]
     set duration [lindex $durationList $l]
     set scale [lindex $scaleList $l]
-    set dirResults "${dirMultiStoryModel}${record}-results"; # Results folder name
+    set dirResults "${dirMultiStoryModel}${record}-results"; # Results folder name (EDIT)
     set extAccelerograms [lindex $extensionList $l]
     source ${dirMultiStoryModel}${multiStoryModel}; # Call model arguments
     source ${dirTclOpenSees}FIEB_Model_Definition.tcl; # Define FIEB model
