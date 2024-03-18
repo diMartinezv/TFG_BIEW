@@ -1,6 +1,6 @@
 ####################################################################################################
 ##
-##      12Story_WSection_ModelArguments.tcl -- arguments for model construction
+##      12Story_WSection_Model_Arguments.tcl -- arguments for model construction
 ##
 ##      Length: [mm] milimeter
 ##      Time: [s] second

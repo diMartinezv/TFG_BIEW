@@ -1,6 +1,6 @@
 ####################################################################################################
 ##
-##      CYCLIC_DISPLACEMENTS.tcl -- displacements for sinusoidal cyclic analysis (dU list calculator)
+##      WSection_BIE_Cyclic_Displacements.tcl -- displacements for sinusoidal cyclic analysis (dU list calculator)
 ##
 ##      Length: [mm] milimeter
 ##      Time: [s] second

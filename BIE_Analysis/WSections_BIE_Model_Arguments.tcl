@@ -1,6 +1,6 @@
 ####################################################################################################
 ##
-##      CHAINCYCLIC_BIE_ANALYSIS.tcl -- queue multiple cyclic analysis
+##      WSections_BIE_Model_Arguments.tcl -- arguments for BIE models of W-Shaped Brace with Intentional Eccentricity
 ##
 ##      Length: [mm] milimeter
 ##      Time: [s] second
@@ -10,8 +10,7 @@
 
 wipe
 model Basic Builder -ndm 2 -ndf 3
-set directory "cyclic"; #d irectory where results are saved
-file mkdir $directory
+set pi 3.14159265359;
 
 # -------------------------
 # Global Geometry
@@ -52,47 +51,20 @@ set emaxlist [list 810 810 810 810 860 850 840 830 820 820 820 810 810 810 810 8
 set eminlist [list 240 240 230 230 280 280 260 260 250 250 250 240 240 240 230 230 230 210 200 200 190 190 190 190 180 180 180 180 330 320 310 310 290 270 270 270 260 250 250 250 250 240 240 240 200 200 180 180 180 180 180 180 180 250 250 250 240 230 230 230 230 180 180 180 180 160 250 250 240 240 240 220 220 220 220 160 160 160 160 150 150 150 260 240 240 230 230 220 220 210 210 210 210 210 160 160 160 140 140 230 230 210 210 210 210 190 190 190 190 190 190 190 180 140 140 130 130 130 110 100 210 200 200 200 190 190 190 190 190 190 170 140 140 120 120 120 120 110 100 100 90 210 210 200 190 190 190 190 170 170 170 170 170 170 160 160 110 110 110 110 110 90 90 90 160 160 150 150 110 100 100 100 100 80 80 330 330 320 300 300 290 280 280 270 270 260 260 250 250 250 240 230 230 230 230 230 220 220 200 200 200 160 150 140 140 120 120 120 100 100 100 80 70 220 220 220 210 210 200 200 190 190 190 190 180 180 170 170 170 170 140 140 120 120 120 100 90 90 60 60 60 60 160 160 160 160 150 140 140 140 120 120 110 90 80 80 60 60 60 60 130 120 120 120 120 110 90 90 80 80 60 60 60 90 90 80 60 60 60 60 80 70 60]
 #11. List: Required displacement to achieve full yielding of cross section (needs to be predetermined in sensitiby analysis)
 set displist [list 676 672 679 676 763 775 761 706 698 727 726 706 674 703 710 707 674 517 506 505 487 486 484 482 473 470 444 402 842 875 865 841 829 796 811 806 762 776 773 737 736 744 726 724 499 496 477 500 499 459 458 435 433 747 762 758 705 713 710 708 690 481 454 452 428 414 758 737 745 725 687 713 676 674 672 461 431 406 405 391 388 363 729 708 705 696 693 674 671 663 660 625 623 621 414 401 410 371 370 662 641 632 628 644 606 598 631 629 592 590 588 540 548 366 364 372 346 327 256 224 631 611 608 588 597 578 592 573 540 570 548 347 345 352 337 317 314 280 250 232 212 578 613 591 600 579 576 556 565 546 544 524 505 504 513 496 322 320 319 318 320 234 232 215 508 471 480 463 316 305 302 277 258 212 180 1023 997 960 948 970 959 934 909 901 898 875 872 864 842 839 817 828 807 805 804 783 749 709 721 719 739 488 499 481 480 353 382 350 287 291 264 189 172 707 684 681 672 669 648 688 637 635 615 612 593 591 602 601 582 585 484 450 384 351 381 299 302 260 165 146 102 146 553 551 549 527 500 504 484 483 383 381 383 266 268 241 164 146 109 163 390 400 402 383 382 384 302 286 223 222 163 116 171 285 283 203 187 165 200 152 236 235 187]
-#12. List: Studied sections (since cyclic analysis is very demanding it isn't recommended all sections at once)
-set slist [list 28 32 182 217 279]
 
 # -------------------------
-# Chain analysis run: first sets values of section geometry
+# Material Definition
 # -------------------------
-# Comment for loop to set isolated analysis
-for {set m 0 } {$m <= [expr [llength $slist]]} {incr m} {
-    # Sets all the geometry values before calling the analysis
-    set s [expr ([lindex $slist $m])]
-    set name [lindex $namelist $s]
-    set d [expr ([lindex $dlist $s])]
-    set bf [expr ([lindex $bflist $s])]
-    set tf [expr ([lindex $tflist $s])]
-    set tw [expr ([lindex $twlist $s])]
-    set Lp [expr ([lindex $Lplist $s])]
-    set ts [expr ([lindex $tslist $s])]
-    set Hs [expr ([lindex $Hslist $s])]
-    set bg [expr ([lindex $bglist $s])]
-    set tg [expr ([lindex $tglist $s])]
-    set Lg [expr ([lindex $Lglist $s])]
-    set disp [expr ([lindex $displist $s])]
-    set Lb [expr $L-2*$Lp]
-    set emin [expr ([lindex $eminlist $s])]
-    set emax [expr ([lindex $emaxlist $s])]
-    # Sets number of analyses to be done with each section (different eccentricities)
-    for {set n 0 } {$n <= 2} {incr n} {; # Only the max, avg, and min eccentricities are tested, change to account for more variations
-        set e [expr $emin + $n*($emax - $emin)/2]
-        # --- Call of Cyclic analysis ---
-        source CYCLIC_DISPLACEMENTS.tcl; # Displacement path
-        # - Tension start test -
-        set nameT $name-$e-Cyclic-Tension
-        puts $nameT
-        set direction 1; # 1 -> tension
-        source CYCLIC_LOAD_BIE.tcl
-        # - Compression start test -
-        set nameC $name-$e-Cyclic-Compression
-        puts $nameC
-        set direction -1; # -1 -> compression
-        source CYCLIC_LOAD_BIE.tcl
-        wipe
-    }
-}
-wipe
+set Fy 0.345; # Yield stress for brace
+set Fyg 0.345; # Yield stress for plates 
+set E0 200; # Elasticity Modulus
+set b [expr (0.1*$Fy/0.04)/$E0]; # Strain Hardening ratio
+set R0 30.0; # Parameter that controls transition form elastic to plastic branches, recommended value between 10 and 20. Value of 30 is used as recommended by Prof. Tremblay.
+set CR1 0.925; # Parameter that controls transition form elastic to plastic branches, recommended value 0.925
+set CR2 0.15; # Parameter that controls transition form elastic to plastic branches, recommended value 0.15
+set a1 0.4; # isotropic hardening parameter, increase of compression yield envelope as proportion of yield strength after a plastic strain of $a2*($Fy/E0); value recommended by Prof. Tremblay
+set a2 22.0; # isotropic hardening parameter; value recommended by Prof. Tremblay
+set a3 0.4; # isotropic hardening parameter, increase of tension yield envelope as proportion of yield strength after a plastic strain of $a4*($Fy/E0); value recommended by Prof. Tremblay
+set a4 22.0; # isotropic hardening parameter; value recommended by Prof. Tremblay
+uniaxialMaterial Steel02 1 $Fy $E0 $b $R0 $CR1 $CR2 $a1 $a2 $a3 $a4; # Brace steel
+uniaxialMaterial Steel02 2 $Fyg $E0 $b $R0 $CR1 $CR2 $a1 $a2 $a3 $a4; # Assembly steel

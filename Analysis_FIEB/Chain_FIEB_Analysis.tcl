@@ -1,6 +1,6 @@
 ####################################################################################################
 ##
-##      ChainAnalysis_FIEB_Analysis.tcl -- queue multiple accelerograms for analysis
+##      Chain_FIEB_Analysis.tcl -- queue multiple accelerograms for analysis
 ##
 ##      Length: [mm] milimeter
 ##      Time: [s] second
@@ -18,7 +18,7 @@
 # -------------------------
 # Since the model arguments are the only change between different models, its recommended to keep them in their own folder to also differentiate between results, the rest of the files can be kept in a shared folder (use "C:/Users/..." to specify a complete different directory)
 set modelStoryNumber 12;
-set multiStoryModel "${modelStoryNumber}Story_WSection_ModelArguments.tcl"; # Name to change for different models
+set multiStoryModel "${modelStoryNumber}Story_WSection_Model_Arguments.tcl"; # Name to change for different models
 set dirMultiStoryModel "${modelStoryNumber}-Stories/"; # Directory path of model to run analysis
 set dirTclOpenSees ""; # Tcl/OpenSees files directory for procedures (if they are kept in a different directory)
 set dirAccelerograms "Records/"; # Accelerograms files directory

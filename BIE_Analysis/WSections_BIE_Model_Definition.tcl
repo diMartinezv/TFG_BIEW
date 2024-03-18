@@ -1,32 +1,12 @@
 ####################################################################################################
 ##
-##      CYCLIC_LOAD_BIE.tcl -- construct BIE models and run cyclic test of W-Shaped Brace with Intentional Eccentricity -- Out-of-Plane Bending Gusset Plate and Side-Plated Connection
+##      WSections_BIE_Model_Definition.tcl -- construct BIE models of W-Shaped Brace with Intentional Eccentricity -- Out-of-Plane Bending Gusset Plate and Side-Plated Connection
 ##
 ##      Length: [mm] milimeter
 ##      Time: [s] second
 ##      Force: [kN] kilonewton
 ##
 ####################################################################################################
-
-model Basic Builder -ndm 2 -ndf 3
-set pi 3.14159265359;
-
-# -------------------------
-# Material Definition
-# -------------------------
-set Fy 0.345; # Yield stress for brace
-set Fyg 0.345; # Yield stress for plates 
-set E0 200; # Elasticity Modulus
-set b [expr (0.1*$Fy/0.04)/$E0]; # Strain Hardening ratio
-set R0 30.0; # Parameter that controls transition form elastic to plastic branches, recommended value between 10 and 20. Value of 30 is used as recommended by Prof. Tremblay.
-set CR1 0.925; # Parameter that controls transition form elastic to plastic branches, recommended value 0.925
-set CR2 0.15; # Parameter that controls transition form elastic to plastic branches, recommended value 0.15
-set a1 0.4; # isotropic hardening parameter, increase of compression yield envelope as proportion of yield strength after a plastic strain of $a2*($Fy/E0); value recommended by Prof. Tremblay
-set a2 22.0; # isotropic hardening parameter; value recommended by Prof. Tremblay
-set a3 0.4; # isotropic hardening parameter, increase of tension yield envelope as proportion of yield strength after a plastic strain of $a4*($Fy/E0); value recommended by Prof. Tremblay
-set a4 22.0; # isotropic hardening parameter; value recommended by Prof. Tremblay
-uniaxialMaterial Steel02 1 $Fy $E0 $b $R0 $CR1 $CR2 $a1 $a2 $a3 $a4; # Brace steel
-uniaxialMaterial Steel02 2 $Fyg $E0 $b $R0 $CR1 $CR2 $a1 $a2 $a3 $a4; # Assembly steel
 
 # -------------------------
 # Sections Definition
@@ -120,32 +100,3 @@ for {set i 1 } { $i <= $elg } {incr i } {
 element forceBeamColumn [expr $elg+$elp+$elb+$elp+$i] [expr $elg+$elp+$elb+$elp+2+$i] [expr $elg+$elp+$elb+$elp+3+$i] 1 Lobatto 2 $ip
 }
 pattern Plain [expr 1] Linear {load 1 1.0 0.0 0.0}
-
-# -------------------------
-# Recorders
-# -------------------------
-# Global Response Recorder
-if {$n == 0} {
-	recorder Node -file [format "$directory/$nameT-disp.dat"] -node 1 -dof 1 disp
-}
-recorder Node -file [format "$directory/$nameT-force.dat"] -node [expr $elg+$elp+$elb+$elp+$elg+3] -dof 1 reaction 
-system UmfPack
-numberer RCM
-constraints Transformation
-integrator LoadControl 1 1 1 1
-test EnergyIncr 1.0e-3 30 0
-algorithm Newton
-analysis Static
-
-# -------------------------
-# Loading Protocol - cyclic -
-# -------------------------
-set dUi 0.0
-for {set i 0} {$i < [llength $dUlist]} {incr i} {
-    set dUf [expr ([lindex $dUlist $i])]
-    set dU [expr ($dUi-$dUf)*$direction]; # Negative for tension start, if direction 1=Tension / -1=Compression
-    integrator DisplacementControl 1 1 $dU 1 $dU $dU
-    analyze 1
-    set dUi $dUf
-}
-wipe
